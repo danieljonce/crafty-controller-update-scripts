@@ -65,6 +65,7 @@ mkdir -p /crafty/scripts
 chmod +x /crafty/scripts/update-mc-core.sh
 chmod +x /crafty/scripts/update-geyser-floodgate.sh
 ```
+*Note: In Docker/CasaOS make sure there is a Volume added to the Docker container. In CasaOS this means clicking the "Add" under the "Volumes" section in the app settings with a "Host" value of `/DATA/AppData/crafty/scripts` and a "Container" path of `/crafty/scripts`. In CasaOS this is found under the "Settings" area for the app.*
 
 ---
 
