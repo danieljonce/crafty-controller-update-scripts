@@ -23,7 +23,7 @@ You’ll need `curl` installed before either script can run.
 apt-get update && apt-get install -y curl
 ```
 
-**Or** include the installation step in every scheduled command (recommended if using Docker / CasaOS).
+**Or** include the installation step in a scheduled command (recommended if using Docker / CasaOS) within Crafty's "Schedule" section of the server.
 
 ---
 
