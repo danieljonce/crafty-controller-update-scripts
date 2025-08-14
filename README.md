@@ -49,6 +49,8 @@ Both scripts support the same target selection flags:
 | `--server-name`     | Use the Crafty **server UUID** directly.                                    | `--server-name <server-UUID>`                     |
 | `--help`            | Displays usage information.                                                 | `--help`                                                                |
 
+*Note: To use the `--friendly-name` flag with the *update-mc-core.sh* script you'll need to add a Crafty API key to the script file and use an API call to get the correct UUID associated with the freiendly name, so using the UUID may be easier for that script*
+
 ---
 
 ## 4. Placing Scripts in Crafty
