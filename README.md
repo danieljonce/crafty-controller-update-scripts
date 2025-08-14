@@ -131,5 +131,5 @@ apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-mc
 
 ## 9. Notes
 - Replace `<server-name>` with your own Crafty server friendly name.
-- If your Crafty install doesn’t have `craftyctl`, you’ll need to restart manually or via the UI.
+- If your Crafty install doesn’t have `craftyctl`, you’ll need to restart manually, via the UI, or via a Scheduled restart command (recommended).
 - You can run these scripts on demand from the Crafty container terminal as well.
