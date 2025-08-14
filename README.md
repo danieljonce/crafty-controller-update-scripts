@@ -55,6 +55,8 @@ Both scripts support the same target selection flags:
 
 ## 4. Placing Scripts in Crafty
 
+In CasaOS You can use the Web GUI and file manager to do this.
+
 1. On your Crafty VM/container host, create a scripts folder:
 ```bash
 mkdir -p /crafty/scripts
