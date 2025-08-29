@@ -74,8 +74,9 @@ In Crafty’s Schedule tab:
 apt-get update && apt-get install -y curl && TARGET_VERSION="1.21.8" /bin/bash /crafty/scripts/update-mc-core.sh --server-name <server-UUID>
 ```
 
-This ensures your server always stays on **1.21.8**, only pulling new Purpur builds for that version.  
-When you’re ready to move to **1.21.9** or beyond, simply change the `TARGET_VERSION` value.
+This ensures your server always stays on **1.21.8**, only pulling new Purpur builds for that version.
+When you're ready to move to **1.21.9** or beyond, simply change the `TARGET_VERSION` value.
+
 ---
 
 ## 4. Placing Scripts in Crafty
