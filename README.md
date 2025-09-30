@@ -6,24 +6,19 @@ These instructions explain how to:
 - Ensure `curl` is installed in your Crafty environment.
 - Install and use the Minecraft Purpur update script.
 - Install and use the Geyser/Floodgate update script.
-- Pass options to target servers by UUID or friendly name.
+- Pass options to target servers by UUID.
 - Place scripts in the correct Crafty location.
-- Schedule automated updates.
-- Restart the server after updates.
 
 ---
 
 ## 1. Prerequisites
 
-Make sure your Crafty Controller environment supports `apt-get`.  
-You’ll need `curl` installed before either script can run.
+Make sure the host machine running Crafty Controller supports `apt-get` and "curl."  
 
-**Install `curl` manually:**
+**Install `apt-get` and `curl`**
 ```bash
 apt-get update && apt-get install -y curl
 ```
-
-**Or** include the installation step in a scheduled command (recommended if using Docker / CasaOS) within Crafty's "Schedule" section of the server.
 
 ---
 
@@ -45,16 +40,13 @@ Both scripts support the same target selection flags:
 
 | Flag                | Description                                                                 | Example                                                                 |
 |---------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| `--friendly-name`   | Use the Crafty **friendly name** for the server (script will look up UUID). | `--friendly-name <server-name>`                                         |
 | `--server-name`     | Use the Crafty **server UUID** directly.                                    | `--server-name <server-UUID>`                     |
 | `--help`            | Displays usage information.                                                 | `--help`                                                                |
-
-*Note: To use the `--friendly-name` flag with the *update-mc-core.sh* script you'll need to add a Crafty API key to the script file and use an API call to get the correct UUID associated with the freiendly name, so using the UUID may be easier for that script*
 
 ## Pinning to a Specific Purpur Version
 
 By default, the `update-mc-core.sh` script will update your server to the **latest build** of your current Minecraft version (e.g., 1.21.8).  
-If Mojang releases a new version (e.g., 1.21.9 or 1.22), the script could upgrade you unless you **pin** it to a specific version.
+If Mojang releases a new version (e.g., 1.21.9 or 1.22), the script could update before you're ready unless you **pin** it to a specific version.
 
 ### Why Pin?
 - **Pinned version**: You’ll always get the latest Purpur build for that exact version (e.g., all builds of 1.21.8).  
@@ -67,15 +59,6 @@ Example for Minecraft **1.21.8**:
 ```bash
 apt-get update && apt-get install -y curl && TARGET_VERSION="1.21.8" /bin/bash /crafty/scripts/update-mc-core.sh --server-name <server-UUID>
 ```
-
-### Scheduled Job Example
-In Crafty’s Schedule tab:
-```bash
-apt-get update && apt-get install -y curl && TARGET_VERSION="1.21.8" /bin/bash /crafty/scripts/update-mc-core.sh --server-name <server-UUID>
-```
-
-This ensures your server always stays on **1.21.8**, only pulling new Purpur builds for that version.
-When you're ready to move to **1.21.9** or beyond, simply change the `TARGET_VERSION` value.
 
 ---
 
@@ -99,7 +82,7 @@ chmod +x /crafty/scripts/update-geyser-floodgate.sh
 
 ---
 
-## 5. Running Scripts Manually
+## 5. Running Scripts
 
 ### Update Minecraft (Purpur) core:
 ```bash
@@ -108,59 +91,21 @@ apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-mc
 
 ### Update Geyser & Floodgate plugins:
 ```bash
-apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-geyser-floodgate.sh --friendly-name <server-name>
+apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-geyser-floodgate.sh --server-name <server-UUID>
 ```
 
 ---
 
-## 6. Scheduling in Crafty Controller
+## 6. Combined Example Command
 
-1. Open Crafty Controller UI.
-2. Go to your server’s **Schedule** tab.
-3. Add a new scheduled job:
-   - **Command:**  
-     For Purpur updates:
-     ```bash
-     apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-mc-core.sh --friendly-name <server-name>
-     ```
-     For Geyser/Floodgate updates:
-     ```bash
-     apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-geyser-floodgate.sh --friendly-name <server-name>
-     ```
-   - **Interval:** Set to your preferred schedule (e.g., daily or weekly).
-4. Save the schedule.
-
----
-
-## 7. Restarting the Server After Updates
-
-### Option 1: Restart Manually
-After the scheduled job runs, restart the server from Crafty’s UI.
-
-### Option 2: Restart Automatically
-If `craftyctl` is available in your environment, append:
+You can also install `curl` install `apt-get` and run both script updates all at once:
 ```bash
-&& craftyctl server restart <server-name>
-```
-to the end of your scheduled command.  
-
-Example:
-```bash
-apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-mc-core.sh --server-name <server-UUID> && craftyctl server restart <server-name>
+apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-mc-core.sh --server-name <server-UUID> && /bin/bash /crafty/scripts/update-geyser-floodgate.sh --server-name <server-UUID>
 ```
 
 ---
 
-## 8. Combined Example Command
-
-You can also run both updates in one scheduled job and restart automatically:
-```bash
-apt-get update && apt-get install -y curl && /bin/bash /crafty/scripts/update-mc-core.sh --friendly-name <server-name> && /bin/bash /crafty/scripts/update-geyser-floodgate.sh --friendly-name <server-name> && craftyctl server restart <server-name>
-```
-
----
-
-## 9. Notes
-- Replace `<server-name>` with your own Crafty server friendly name.
-- If your Crafty install doesn’t have `craftyctl`, you’ll need to restart manually, via the UI, or via a Scheduled restart command (recommended).
-- You can run these scripts on demand from the Crafty container terminal as well.
+## 7. Notes
+- Replace `<server-UUID>` with your own Crafty server's UUID.
+- The Minecraft server will need to be restarted after running the update scripts.
+- You can automate running these scripts using Cron on the host machine (NOT the Scheduler in Crafty Controller's Web Interface, that's for Minecraft terminal commands. These scripts must be run on the linux terminal)
